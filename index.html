@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人卡片生成器</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>个人卡片生成器</h1>
+            <p>创建专属于您的个人介绍卡片</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 左侧：表单输入 -->
+            <div class="form-section">
+                <div class="form-group">
+                    <h2>个人信息</h2>
+
+                    <!-- 头像上传 -->
+                    <div class="avatar-section">
+                        <div class="avatar-preview" id="avatarPreview">
+                            <div class="avatar-placeholder">
+                                <span>📷</span>
+                                <p>点击上传头像</p>
+                            </div>
+                        </div>
+                        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                        <button type="button" class="upload-btn" id="uploadBtn">选择头像</button>
+                    </div>
+
+                    <!-- 基础信息 -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">姓名 *</label>
+                            <input type="text" id="name" placeholder="请输入您的姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">职位/头衔 *</label>
+                            <input type="text" id="title" placeholder="例如：产品经理">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company">公司</label>
+                            <input type="text" id="company" placeholder="请输入公司名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">邮箱 *</label>
+                            <input type="email" id="email" placeholder="your@email.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">电话</label>
+                            <input type="tel" id="phone" placeholder="请输入电话号码">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">地址</label>
+                            <input type="text" id="address" placeholder="请输入地址">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="website">个人网站</label>
+                            <input type="url" id="website" placeholder="https://yourwebsite.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="social">社交账号</label>
+                            <input type="text" id="social" placeholder="微信/QQ/LinkedIn等">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="bio">个人简介</label>
+                        <textarea id="bio" rows="4" placeholder="请输入您的个人简介..."></textarea>
+                    </div>
+                </div>
+
+                <!-- 样式选择 -->
+                <div class="form-group">
+                    <h2>样式选择</h2>
+
+                    <div class="form-group">
+                        <label for="cardStyle">卡片风格</label>
+                        <select id="cardStyle">
+                            <option value="business">商务专业风格</option>
+                            <option value="modern">现代简约风格</option>
+                            <option value="creative">创意活泼风格</option>
+                            <option value="tech">科技未来风格</option>
+                            <option value="vintage">经典复古风格</option>
+                            <option value="cartoon">卡通风格</option>
+                            <option value="gradient">渐变时尚风格</option>
+                            <option value="handdrawn">手绘风格</option>
+                            <option value="minimalist">极简主义风格</option>
+                            <option value="cyberpunk">赛博朋克风格</option>
+                            <option value="chinese">中国风</option>
+                            <option value="nordic">北欧风格</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="colorScheme">色系</label>
+                        <select id="colorScheme">
+                            <option value="business">经典商务色系</option>
+                            <option value="warm">温暖橙红色系</option>
+                            <option value="nature">自然绿色系</option>
+                            <option value="elegant">优雅紫蓝色系</option>
+                            <option value="vibrant">活力黄色系</option>
+                            <option value="fresh">清新粉色系</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardSize">卡片尺寸</label>
+                        <select id="cardSize">
+                            <option value="standard">标准尺寸 (16:9)</option>
+                            <option value="namecard">名片比例 (1.75:1)</option>
+                            <option value="square">正方形 (1:1)</option>
+                            <option value="vertical">垂直卡片 (9:16)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary" id="downloadPNG">下载 PNG</button>
+                    <button type="button" class="btn btn-primary" id="downloadJPG">下载 JPG</button>
+                    <button type="button" class="btn btn-secondary" id="resetBtn">一键重置</button>
+                </div>
+            </div>
+
+            <!-- 右侧：卡片预览 -->
+            <div class="preview-section">
+                <h2>卡片预览</h2>
+                <div class="card-container">
+                    <div id="businessCard" class="business-card business-style business-color standard-size">
+                        <!-- 卡片内容将由JavaScript动态生成 -->
+                    </div>
+                </div>
+                <div class="preview-tips">
+                    <p>💡 提示：所有信息实时同步到卡片预览</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 头像裁剪模态框 -->
+    <div id="cropModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>裁剪头像</h3>
+                <button type="button" class="close-btn" id="closeCropModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img id="cropImage" style="max-width: 100%;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelCrop">取消</button>
+                <button type="button" class="btn btn-primary" id="confirmCrop">确认裁剪</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载第三方库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
